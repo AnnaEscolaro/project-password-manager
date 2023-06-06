@@ -1,4 +1,10 @@
-function CreateForm() {
+type Props = {
+  setCreatePassword:(arg:boolean) => void;
+};
+
+function CreateForm(props: Props) {
+  const { setCreatePassword } = props;
+
   return (
     <div>
       <form>
@@ -44,7 +50,7 @@ function CreateForm() {
         </label>
       </form>
       <button>Cadastrar</button>
-      <button>Cancelar</button>
+      <button onClick={ () => setCreatePassword(false) }>Cancelar</button>
     </div>
   );
 }

@@ -1,9 +1,13 @@
 import './App.css';
+import CreateForm from './components/Form';
 
 function App() {
   return (
     <div>
-      <h1>Gerenciador de senhas</h1>
+      <header>
+        <h1>Gerenciador de senhas</h1>
+      </header>
+      <CreateForm />
     </div>
   );
 }

@@ -1,16 +1,20 @@
 import { useState } from 'react';
 
 type Props = {
-  setCreatePassword:(arg:boolean) => void;
+  setCreatePassword: (arg: boolean) => void;
 };
 
 function CreateForm(props: Props) {
+  // STATES
   const [password, setPassword] = useState('');
 
   const [service, setService] = useState('');
 
   const [login, setLogin] = useState('');
 
+  const [url, setUrl] = useState('');
+
+  // PROPS
   const { setCreatePassword } = props;
 
   // VALIDATING PASSWORD
@@ -24,11 +28,13 @@ function CreateForm(props: Props) {
     const regexLetters = /[a-zA-Z]+/;
     const regexNumbers = /\d+/g;
     const regexSpecialCharacters = /[ !"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/;
-    return !(password.length >= 8
+    return !(
+      password.length >= 8
       && password.length <= 16
       && regexLetters.test(password)
       && regexNumbers.test(password)
-      && regexSpecialCharacters.test(password));
+      && regexSpecialCharacters.test(password)
+    );
   };
 
   // VALIDATING SERVICE
@@ -39,7 +45,7 @@ function CreateForm(props: Props) {
   };
 
   const handleRegisterService = () => {
-    return (service.length < 1);
+    return service.length < 1;
   };
 
   // VALIDATING LOGIN
@@ -50,12 +56,16 @@ function CreateForm(props: Props) {
   };
 
   const handleRegisterLogin = () => {
-    return (login.length < 1);
+    return login.length < 1;
   };
 
   // VALIDATING BUTTON ACTIVATION
   const buttonActivation = () => {
-    return (handleRegisterPassword() || handleRegisterService() || handleRegisterLogin());
+    return (
+      handleRegisterPassword()
+      || handleRegisterService()
+      || handleRegisterLogin()
+    );
   };
 
   // VARIABLES FOR TESTING PASSWORD SEPARATELY
@@ -65,81 +75,154 @@ function CreateForm(props: Props) {
   const validPasswordClass = 'valid-password-check';
   const invalidPasswordClass = 'invalid-password-check';
 
+  // HANDLE URL
+  const handleUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const urlValue = event.target.value;
+    setUrl(urlValue);
+  };
+
+  // SAVING REGISTERS
+  type DataProps = {
+    name: string;
+    login: string;
+    password: string;
+    url: string;
+  };
+
+  const [savedRegisters, setSavedRegisters] = useState<DataProps[]>([]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSavedRegisters([
+      {
+        name: service,
+        login,
+        password,
+        url,
+      },
+      ...savedRegisters,
+    ]);
+  };
+
+  // REGISTRATION BUTTON
+  const noRegisters = () => <p>Nenhuma senha cadastrada</p>;
+
+  //   const registers = () => {
+  //     return (
+  //       <div>
+  //         <a target="_blank" rel="noreferrer" href={ url }>
+  //           Nome do serviço:
+  //           {savedRegisters.name}
+  //         </a>
+  //         <p>
+  //           Login:
+  //           {savedRegisters.login}
+  //         </p>
+  //         <p>
+  //           Senha:
+  //           {savedRegisters.password}
+  //         </p>
+  //       </div>
+  //     );
+  //   };
+
   return (
-    <div>
-      <form>
-        <label htmlFor="name">
-          Nome do serviço
-          <input
-            onChange={ handleService }
-            value={ service }
-            type="text"
-            id="name"
-            required
-          />
-        </label>
-        <label htmlFor="login">
-          Login
-          <input
-            onChange={ handleLogin }
-            value={ login }
-            type="text"
-            id="login"
-            required
-          />
-        </label>
-        <label htmlFor="senha">
-          Senha
-          <input
-            onChange={ handlePassword }
-            value={ password }
-            type="password"
-            id="senha"
-            required
-          />
-        </label>
-        <label htmlFor="URL">
-          URL
-          <input
-            // onChange={}
-            // value={}
-            type="text"
-            id="URL"
-          />
-        </label>
-        <h5>Sua senha deverá:</h5>
-        <p
-          className={ password.length >= 8
+    <form onSubmit={ handleSubmit }>
+      <label htmlFor="name">
+        Nome do serviço
+        <input
+          onChange={ handleService }
+          value={ service }
+          type="text"
+          id="name"
+          required
+        />
+      </label>
+      <label htmlFor="login">
+        Login
+        <input
+          onChange={ handleLogin }
+          value={ login }
+          type="text"
+          id="login"
+          required
+        />
+      </label>
+      <label htmlFor="senha">
+        Senha
+        <input
+          onChange={ handlePassword }
+          value={ password }
+          type="password"
+          id="senha"
+          required
+        />
+      </label>
+      <label htmlFor="URL">
+        URL
+        <input onChange={ handleUrl } value={ url } type="text" id="URL" />
+      </label>
+      <h5>Sua senha deverá:</h5>
+      <p
+        className={
+          password.length >= 8 ? validPasswordClass : invalidPasswordClass
+        }
+      >
+        Possuir 8 ou mais caracteres
+      </p>
+      <p
+        className={
+          password.length <= 16 && password.length >= 8
             ? validPasswordClass
-            : invalidPasswordClass }
-        >
-          Possuir 8 ou mais caracteres
-        </p>
-        <p
-          className={ password.length <= 16 && password.length >= 8
+            : invalidPasswordClass
+        }
+      >
+        Possuir até 16 caracteres
+      </p>
+      <p
+        className={
+          regexLetters.test(password) && regexNumbers.test(password)
             ? validPasswordClass
-            : invalidPasswordClass }
-        >
-          Possuir até 16 caracteres
-        </p>
-        <p
-          className={ regexLetters.test(password) && regexNumbers.test(password)
+            : invalidPasswordClass
+        }
+      >
+        Possuir letras e números
+      </p>
+      <p
+        className={
+          regexSpecialCharacters.test(password)
             ? validPasswordClass
-            : invalidPasswordClass }
-        >
-          Possuir letras e números
-        </p>
-        <p
-          className={ regexSpecialCharacters.test(password)
-            ? validPasswordClass
-            : invalidPasswordClass }
-        >
-          Possuir algum caractere especial
-        </p>
-      </form>
-      <button disabled={ buttonActivation() }>Cadastrar</button>
+            : invalidPasswordClass
+        }
+      >
+        Possuir algum caractere especial
+      </p>
+      <button disabled={ buttonActivation() } type="submit">
+        Cadastrar
+      </button>
       <button onClick={ () => setCreatePassword(false) }>Cancelar</button>
-    </div>
+      { savedRegisters.length === 0
+        ? noRegisters()
+        : savedRegisters.map((register) => {
+          return (
+            <div key={ register.login }>
+              <a target="_blank" rel="noreferrer" href={ url }>
+                Nome do serviço:
+                {register.name}
+              </a>
+              <p>
+                Login:
+                {register.login}
+              </p>
+              <p>
+                Senha:
+                {register.password}
+              </p>
+            </div>
+          );
+        })}
+    </form>
   );
 }
 

@@ -55,7 +55,6 @@ function CreateForm(props: Props) {
 
   // VALIDATING BUTTON ACTIVATION
   const buttonActivation = () => {
-    console.log(handleRegisterPassword());
     return (handleRegisterPassword() || handleRegisterService() || handleRegisterLogin());
   };
 

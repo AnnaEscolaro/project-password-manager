@@ -21,7 +21,6 @@ function CreateForm(props: Props) {
   };
 
   const handleRegisterPassword = () => {
-    // const regex = /^[a-zA-Z0-9!@#$%^&*)(+=._-]+$/g;
     const regexLetters = /[a-zA-Z]+/;
     const regexNumbers = /\d+/g;
     const regexSpecialCharacters = /[ !"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/;
@@ -59,6 +58,13 @@ function CreateForm(props: Props) {
     console.log(handleRegisterPassword());
     return (handleRegisterPassword() || handleRegisterService() || handleRegisterLogin());
   };
+
+  // VARIABLES FOR TESTING PASSWORD SEPARATELY
+  const regexLetters = /[a-zA-Z]+/;
+  const regexNumbers = /\d+/g;
+  const regexSpecialCharacters = /[ !"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/;
+  const validPasswordClass = 'valid-password-check';
+  const invalidPasswordClass = 'invalid-password-check';
 
   return (
     <div>
@@ -102,6 +108,35 @@ function CreateForm(props: Props) {
             id="URL"
           />
         </label>
+        <h5>Sua senha deverá:</h5>
+        <p
+          className={ password.length >= 8
+            ? validPasswordClass
+            : invalidPasswordClass }
+        >
+          Possuir 8 ou mais caracteres
+        </p>
+        <p
+          className={ password.length <= 16 && password.length >= 8
+            ? validPasswordClass
+            : invalidPasswordClass }
+        >
+          Possuir até 16 caracteres
+        </p>
+        <p
+          className={ regexLetters.test(password) && regexNumbers.test(password)
+            ? validPasswordClass
+            : invalidPasswordClass }
+        >
+          Possuir letras e números
+        </p>
+        <p
+          className={ regexSpecialCharacters.test(password)
+            ? validPasswordClass
+            : invalidPasswordClass }
+        >
+          Possuir algum caractere especial
+        </p>
       </form>
       <button disabled={ buttonActivation() }>Cadastrar</button>
       <button onClick={ () => setCreatePassword(false) }>Cancelar</button>

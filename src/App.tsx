@@ -21,6 +21,13 @@ function App() {
     setCreatePassword(false);
   };
 
+  const removeService = (index: number) => {
+    const newState = savedRegisters.filter((register, idx) => {
+      return idx !== index;
+    });
+    setSavedRegisters(newState);
+  };
+
   return (
     <div>
       <header>
@@ -30,16 +37,15 @@ function App() {
         <CreateForm
           setCreatePassword={ setCreatePassword }
           saveRegisters={ saveRegisters }
-          savedRegisters={ savedRegisters }
         />
       ) : (
         <button onClick={ () => setCreatePassword(true) }>Cadastrar nova senha</button>
       )}
       { savedRegisters.length === 0
         ? <p>Nenhuma senha cadastrada</p>
-        : savedRegisters.map((register) => {
+        : savedRegisters.map((register, index) => {
           return (
-            <div key={ register.login }>
+            <div key={ index }>
               <a target="_blank" rel="noreferrer" href={ register.url }>
                 {register.name}
               </a>
@@ -49,6 +55,12 @@ function App() {
               <p>
                 {register.password}
               </p>
+              <button
+                data-testid="remove-btn"
+                onClick={ () => removeService(index) }
+              >
+                Remover
+              </button>
             </div>
           );
         })}

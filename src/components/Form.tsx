@@ -3,7 +3,7 @@ import { DataProps } from './Types';
 
 type Props = {
   setCreatePassword: (arg: boolean) => void;
-  savedRegisters: DataProps[];
+  //   savedRegisters: DataProps[];
   saveRegisters: (args: DataProps) => void;
 };
 
@@ -19,7 +19,7 @@ function CreateForm(props: Props) {
 
   // PROPS
   const { setCreatePassword } = props;
-  const { savedRegisters } = props;
+  //   const { savedRegisters } = props;
   const { saveRegisters } = props;
 
   // VALIDATING PASSWORD
@@ -87,30 +87,11 @@ function CreateForm(props: Props) {
     setUrl(urlValue);
   };
 
-  // SAVING REGISTERS
-  //   type DataProps = {
-  //     name: string;
-  //     login: string;
-  //     password: string;
-  //     url: string;
-  //   };
-
-  /**
-   * @todo deve ir pra App.tsx
-   */
-  //   const [savedRegisters, setSavedRegisters] = useState<DataProps[]>([]);
-
-  /**
-   * deve ser recebido como parametro
-   * @param e
-   */
+  // HANDLE SUBMIT
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     saveRegisters({ name: service, login, password, url });
   };
-
-  //   REGISTRATION BUTTON
-  //   const noRegisters = () => <p>Nenhuma senha cadastrada</p>;
 
   return (
     <form onSubmit={ handleSubmit }>
@@ -187,23 +168,6 @@ function CreateForm(props: Props) {
         Cadastrar
       </button>
       <button onClick={ () => setCreatePassword(false) }>Cancelar</button>
-      {/* { savedRegisters.length === 0
-        ? <p>Nenhuma senha cadastrada</p>
-        : savedRegisters.map((register) => {
-          return (
-            <div key={ register.login }>
-              <a target="_blank" rel="noreferrer" href={ url }>
-                {register.name}
-              </a>
-              <p>
-                {register.login}
-              </p>
-              <p>
-                {register.password}
-              </p>
-            </div>
-          );
-        })} */}
     </form>
   );
 }

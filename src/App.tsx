@@ -8,6 +8,8 @@ function App() {
 
   const [savedRegisters, setSavedRegisters] = useState<DataProps[]>([]);
 
+  const [hidePassword, setHidePassword] = useState(false);
+
   const saveRegisters = ({ name, login, password, url }: DataProps) => {
     setSavedRegisters([
       ...savedRegisters,
@@ -46,15 +48,26 @@ function App() {
         : savedRegisters.map((register, index) => {
           return (
             <div key={ index }>
+              <label>
+                <input
+                  type="checkbox"
+                  onChange={ () => {
+                    if (hidePassword) {
+                      setHidePassword(false);
+                    } else { setHidePassword(true); }
+                  } }
+                />
+                Esconder senhas
+              </label>
               <a target="_blank" rel="noreferrer" href={ register.url }>
                 {register.name}
               </a>
               <p>
                 {register.login}
               </p>
-              <p>
-                {register.password}
-              </p>
+              { hidePassword
+                ? <p>******</p>
+                : <p>{register.password}</p> }
               <button
                 data-testid="remove-btn"
                 onClick={ () => removeService(index) }

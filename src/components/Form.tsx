@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 import { DataProps } from './Types';
 
 type Props = {
@@ -93,6 +94,11 @@ function CreateForm(props: Props) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     saveRegisters({ name: service, login, password, url });
+    Swal.fire({
+      title: 'Serviço cadastrado com sucesso',
+      icon: 'success',
+      timer: 1500,
+    });
   };
 
   return (
@@ -126,21 +132,6 @@ function CreateForm(props: Props) {
           id="senha"
           required
         />
-        {/* { showHidePassword
-          ? <input
-              type="password"
-              onChange={ handlePassword }
-              value={ password }
-              id="senha"
-              required
-          />
-          : <input
-              type="text"
-              onChange={ handlePassword }
-              value={ password }
-              id="senha"
-              required
-          />} */}
         <button
           data-testid="show-hide-form-password"
           onClick={ (event) => {
@@ -194,7 +185,10 @@ function CreateForm(props: Props) {
       >
         Possuir algum caractere especial
       </p>
-      <button disabled={ buttonActivation() } type="submit">
+      <button
+        disabled={ buttonActivation() }
+        type="submit"
+      >
         Cadastrar
       </button>
       <button onClick={ () => setCreatePassword(false) }>Cancelar</button>

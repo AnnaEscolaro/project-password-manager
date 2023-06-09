@@ -17,6 +17,8 @@ function CreateForm(props: Props) {
 
   const [url, setUrl] = useState('');
 
+  const [showHidePassword, setShowHidePassword] = useState(true);
+
   // PROPS
   const { setCreatePassword } = props;
   //   const { savedRegisters } = props;
@@ -118,12 +120,40 @@ function CreateForm(props: Props) {
       <label htmlFor="senha">
         Senha
         <input
+          type={ showHidePassword ? 'password' : 'text' }
           onChange={ handlePassword }
           value={ password }
-          type="password"
           id="senha"
           required
         />
+        {/* { showHidePassword
+          ? <input
+              type="password"
+              onChange={ handlePassword }
+              value={ password }
+              id="senha"
+              required
+          />
+          : <input
+              type="text"
+              onChange={ handlePassword }
+              value={ password }
+              id="senha"
+              required
+          />} */}
+        <button
+          data-testid="show-hide-form-password"
+          onClick={ (event) => {
+            event.preventDefault();
+            if (showHidePassword) {
+              setShowHidePassword(false);
+            } else {
+              setShowHidePassword(true);
+            }
+          } }
+        >
+          Esconder/Mostrar Senha
+        </button>
       </label>
       <label htmlFor="URL">
         URL

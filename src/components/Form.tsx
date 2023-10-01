@@ -4,7 +4,6 @@ import { DataProps } from './Types';
 
 type Props = {
   setCreatePassword: (arg: boolean) => void;
-  //   savedRegisters: DataProps[];
   saveRegisters: (args: DataProps) => void;
 };
 
@@ -22,7 +21,6 @@ function CreateForm(props: Props) {
 
   // PROPS
   const { setCreatePassword } = props;
-  //   const { savedRegisters } = props;
   const { saveRegisters } = props;
 
   // VALIDATING PASSWORD
@@ -103,88 +101,94 @@ function CreateForm(props: Props) {
 
   return (
     <form onSubmit={ handleSubmit }>
-      <label htmlFor="name">
-        Nome do serviço
-        <input
-          onChange={ handleService }
-          value={ service }
-          type="text"
-          id="name"
-          required
-        />
-      </label>
-      <label htmlFor="login">
-        Login
-        <input
-          onChange={ handleLogin }
-          value={ login }
-          type="text"
-          id="login"
-          required
-        />
-      </label>
-      <label htmlFor="senha">
-        Senha
-        <input
-          type={ showHidePassword ? 'password' : 'text' }
-          onChange={ handlePassword }
-          value={ password }
-          id="senha"
-          required
-        />
-        <button
-          data-testid="show-hide-form-password"
-          onClick={ (event) => {
-            event.preventDefault();
-            if (showHidePassword) {
-              setShowHidePassword(false);
-            } else {
-              setShowHidePassword(true);
+      <div id="container">
+        <section id="inputs">
+          <label htmlFor="name">
+            Nome do serviço
+            <input
+              onChange={ handleService }
+              value={ service }
+              type="text"
+              id="name"
+              required
+            />
+          </label>
+          <label htmlFor="login">
+            Login
+            <input
+              onChange={ handleLogin }
+              value={ login }
+              type="text"
+              id="login"
+              required
+            />
+          </label>
+          <label htmlFor="senha">
+            Senha
+            <input
+              type={ showHidePassword ? 'password' : 'text' }
+              onChange={ handlePassword }
+              value={ password }
+              id="senha"
+              required
+            />
+            <button
+              data-testid="show-hide-form-password"
+              onClick={ (event) => {
+                event.preventDefault();
+                if (showHidePassword) {
+                  setShowHidePassword(false);
+                } else {
+                  setShowHidePassword(true);
+                }
+              } }
+            >
+              Esconder/Mostrar
+            </button>
+          </label>
+          <label htmlFor="URL">
+            URL
+            <input onChange={ handleUrl } value={ url } type="text" id="URL" />
+          </label>
+        </section>
+        <section id="password-requirements">
+          <h5>Sua senha deverá:</h5>
+          <p
+            className={
+              password.length >= 8 ? validPasswordClass : invalidPasswordClass
             }
-          } }
-        >
-          Esconder/Mostrar Senha
-        </button>
-      </label>
-      <label htmlFor="URL">
-        URL
-        <input onChange={ handleUrl } value={ url } type="text" id="URL" />
-      </label>
-      <h5>Sua senha deverá:</h5>
-      <p
-        className={
-          password.length >= 8 ? validPasswordClass : invalidPasswordClass
-        }
-      >
-        Possuir 8 ou mais caracteres
-      </p>
-      <p
-        className={
-          password.length <= 16 && password.length >= 8
-            ? validPasswordClass
-            : invalidPasswordClass
-        }
-      >
-        Possuir até 16 caracteres
-      </p>
-      <p
-        className={
-          regexLetters.test(password) && regexNumbers.test(password)
-            ? validPasswordClass
-            : invalidPasswordClass
-        }
-      >
-        Possuir letras e números
-      </p>
-      <p
-        className={
-          regexSpecialCharacters.test(password)
-            ? validPasswordClass
-            : invalidPasswordClass
-        }
-      >
-        Possuir algum caractere especial
-      </p>
+          >
+            Possuir 8 ou mais caracteres
+          </p>
+          <p
+            className={
+              password.length <= 16 && password.length >= 8
+                ? validPasswordClass
+                : invalidPasswordClass
+            }
+          >
+            Possuir até 16 caracteres
+          </p>
+          <p
+            className={
+              regexLetters.test(password) && regexNumbers.test(password)
+                ? validPasswordClass
+                : invalidPasswordClass
+            }
+          >
+            Possuir letras e números
+          </p>
+          <p
+            className={
+              regexSpecialCharacters.test(password)
+                ? validPasswordClass
+                : invalidPasswordClass
+            }
+          >
+            Possuir algum caractere especial
+          </p>
+        </section>
+      </div>
       <button
         disabled={ buttonActivation() }
         type="submit"
